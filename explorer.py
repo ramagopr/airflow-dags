@@ -1,8 +1,8 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
-import csv
-import wget
+import urllib
+
 
 from datetime import datetime
 
@@ -16,8 +16,9 @@ def process(p1):
     return 'done'
 
 def downloadExplorerfile():
+   
    url = 'https://raw.githubusercontent.com/GeoscienceAustralia/dea-config/NEMO-2317/workspaces/explorer_product_list.csv'
-   r = wget.download(url, out='.')
+   urllib.urlretrieve(url, filename="./explorer.csv")
 
    infile = open('explorer_product_list.csv', "r")
    read = csv.reader(infile)
